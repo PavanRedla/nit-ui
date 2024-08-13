@@ -16,7 +16,7 @@ export const Register = () => {
 
       // sending request to the server.
       // first time fetch returns the response class obj. In the response class object, if we want to get the response in text format then we can call text method or if we want to get the response in json format then we can call json method.
-      const res = await fetch("http://localhost:2020/std/register", {
+      const res = await fetch("https://nit-server.vercel.app/std/register", {
         method: "post",
         headers: {
           // if we send the data using fetch or XMLHTTPRequest for request body they will always send in the format of string.
@@ -28,9 +28,16 @@ export const Register = () => {
         body: JSON.stringify(dataObj), // fetch and XMLHTTPRequest for request body they will always send in the format of string. hence converting the data to string format.
       });
       const result = await res.json();
-      console.log(result);
-    } catch (ex) {
+      // console.log(result);
+      const { acknowledged, insertedId } = result;
+      if (acknowledged) {
+        alert("Success");
+      } else {
+        alert("fail");
+      }
+    } catch (ex: any) {
       console.log(ex);
+      alert(ex.message);
     }
   };
   return (
