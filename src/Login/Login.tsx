@@ -17,6 +17,7 @@ export const Login = () => {
         // checking if res has some data or not if data is received that means login is successful so we can dispatch the data to the reducer now. reducer will store the data in the store.
         if (typeof window !== "undefined") {
           sessionStorage.user = res?.data?.[0]?.uid;
+          sessionStorage.token = res?.data?.[0]?.token;
         }
         dispatch({
           type: "LOGIN",
