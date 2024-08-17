@@ -5,6 +5,7 @@ import "./globals.css";
 import { Login } from "@/Login";
 import { appStore } from "../redux/appStore";
 import { Provider, useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,16 @@ export default function LayoutWrapper({
   children: React.ReactNode;
 }>) {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && sessionStorage?.user) {
+      dispatch({
+        type: "LOGIN",
+        payload: { isLoggedIn: true, user: sessionStorage?.user },
+      });
+    }
+  }, []);
+
   const isLoggedIn = useSelector((state: any) => {
     return state?.appReducer?.isLoggedIn;
   });
