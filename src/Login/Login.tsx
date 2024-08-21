@@ -12,6 +12,7 @@ export const Login = () => {
   };
   const handleClick = async () => {
     try {
+      dispatch({ type: "LOADER", payload: true });
       const res = await Ajax.sendPostReq("std/login", data); // it connects with the login page on server side and if uid and pwd are correct then it sends the data back otherwsie it wont send any data.
       // console.log(res);
       if (res?.data?.length > 0) {
@@ -29,6 +30,8 @@ export const Login = () => {
       }
     } catch (ex) {
       // console.log(ex);
+    } finally {
+      dispatch({ type: "LOADER", payload: false });
     }
   };
 

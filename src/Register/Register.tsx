@@ -1,9 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import { Ajax } from "@/services/Ajax";
+import { useDispatch, UseDispatch } from "react-redux";
 
 export const Register = () => {
   const [data, setData] = useState({});
+  const dispatch = useDispatch();
   const handleChange = (eve: any) => {
     // eve: any - because of typescript we have to give type to each and every parameter, for now we have used common type called any for event
     const { name, value } = eve.target;
@@ -35,9 +37,11 @@ export const Register = () => {
       var dataObj = {
         data: data,
       };
+      dispatch({ type: "LOADER", payload: true });
       const res = await Ajax.sendPostReq("std/register", dataObj);
       const { acknowledged, insertedId } = res?.data;
       if (acknowledged && insertedId) {
+        dispatch({ type: "GET_STUDENTS" });
         alert("success");
       } else {
         alert("fail");
@@ -45,6 +49,8 @@ export const Register = () => {
     } catch (ex: any) {
       console.log(ex);
       alert(ex.message);
+    } finally {
+      dispatch({ type: "LOADER", payload: false });
     }
   };
   return (
